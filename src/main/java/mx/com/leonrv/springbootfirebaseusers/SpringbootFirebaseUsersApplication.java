@@ -8,5 +8,4 @@ public class SpringbootFirebaseUsersApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootFirebaseUsersApplication.class, args);
 	}
-
 }
