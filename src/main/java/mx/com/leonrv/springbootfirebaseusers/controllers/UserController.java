@@ -35,14 +35,14 @@ public class UserController {
          Flux<User> fluxUsers = null;
          Map<String, Object> responseMap = new HashMap<>();
          try {
-            userService.findAll();
+            fluxUsers =  userService.findAll();
          } catch (Exception e) {
             responseMap.put("message", "Ocurrio un error al consultar los registros");
              responseMap.put("error", e.getMessage());
             return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.INTERNAL_SERVER_ERROR);
          }
 
-        return new ResponseEntity<Flux<User>>(fluxUsers, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<Flux<User>>(fluxUsers, HttpStatus.OK);
     }
 
     @PostMapping("/auth")
