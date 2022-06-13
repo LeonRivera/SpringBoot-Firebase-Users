@@ -36,8 +36,4 @@ public class UserService implements IUserService {
         return userRepository.findById(username);
     }
 
-    // public String saludoService() {
-    //     return "hola desde el servicio";
-    // }
-
 }
