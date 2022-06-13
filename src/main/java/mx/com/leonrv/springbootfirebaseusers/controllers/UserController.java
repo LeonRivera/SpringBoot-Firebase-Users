@@ -107,6 +107,11 @@ public class UserController {
 
         return new ResponseEntity<User>(userService.save(user).block(), HttpStatus.CREATED);
     }
+    
+    @PutMapping
+    public Mono<User> update(@RequestBody User user){
+        return userService.save(user);
+    }
 
     @DeleteMapping
     public ResponseEntity<?> delete(@RequestBody User user) {
