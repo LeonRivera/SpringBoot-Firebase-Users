@@ -31,18 +31,8 @@ public class UserController {
     IUserService userService;
 
     @GetMapping
-    public ResponseEntity<?> findAll() {
-         Flux<User> fluxUsers = null;
-         Map<String, Object> responseMap = new HashMap<>();
-         try {
-            fluxUsers =  userService.findAll();
-         } catch (Exception e) {
-            responseMap.put("message", "Ocurrio un error al consultar los registros");
-             responseMap.put("error", e.getMessage());
-            return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.INTERNAL_SERVER_ERROR);
-         }
-
-        return new ResponseEntity<Flux<User>>(fluxUsers, HttpStatus.OK);
+    public Flux<User> findAll() {
+        return userService.findAll();
     }
 
     @PostMapping("/auth")
@@ -56,7 +46,6 @@ public class UserController {
 
         if (userBlocked == null) {
             responseMap.put("message", "El usuario no se encuentra registrado");
-            
             return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.NOT_FOUND);
         }
 
@@ -67,8 +56,6 @@ public class UserController {
 
         return new ResponseEntity<Boolean>(false, HttpStatus.OK);
     }
-
-    
 
     @PostMapping
     public ResponseEntity<?> save(@RequestBody User user) {
@@ -107,8 +94,6 @@ public class UserController {
 
         return new ResponseEntity<User>(userService.save(user).block(), HttpStatus.CREATED);
     }
-    
-
 
     @DeleteMapping
     public ResponseEntity<?> delete(@RequestBody User user) {
