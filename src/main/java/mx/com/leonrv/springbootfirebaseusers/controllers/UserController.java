@@ -112,7 +112,7 @@ public class UserController {
         Mono<Void> delete = userService.delete(user);
         // System.out.println(delete.block());
 
-        return new ResponseEntity<User>(byUsername.block(), HttpStatus.NOT_FOUND) ;
+        return new ResponseEntity<User>(byUsername.block(), HttpStatus.OK) ;
     }
 
 }
