@@ -129,7 +129,7 @@ public class UserController {
 
         userService.delete(user).block(); //blocking stream to complete delete operation
 
-        return new ResponseEntity<User>(byUsername.block(), HttpStatus.OK) ;
+        return new ResponseEntity<User>(user, HttpStatus.OK) ;
     }
 
 }
