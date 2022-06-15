@@ -87,7 +87,8 @@ public class UserController {
 
         if(byUsername.block() != null){
             responseMap.put("message", "El usuario ya se encuentra registrado");
-            return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.NOT_MODIFIED);
+            //304 not 
+            return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.NOT_FOUND);
         }
 
         try {
