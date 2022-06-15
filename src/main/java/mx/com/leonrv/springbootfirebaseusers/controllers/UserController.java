@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +36,24 @@ public class UserController {
     @GetMapping
     public Flux<User> findAll() {
         return userService.findAll();
+    }
+
+
+    @GetMapping("/{username}")
+    public ResponseEntity<?> findByUsername(@PathVariable String username){
+
+        Map<String, Object> responseMap = new HashMap<>();
+
+        Mono<User> userMono = userService.getByUsername(username);
+
+        User userBlocked = userMono.block();
+
+        if (userBlocked == null) {
+            responseMap.put("message", "El usuario no se encuentra registrado");
+            return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<User>(userBlocked, HttpStatus.OK);
     }
 
     @PostMapping("/auth")
@@ -108,11 +127,9 @@ public class UserController {
             return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.NOT_FOUND);
         }
 
+        userService.delete(user).block(); //blocking stream to complete delete operation
 
-        Mono<Void> delete = userService.delete(user);
-        // System.out.println(delete.block());
-
-        return new ResponseEntity<User>(byUsername.block(), HttpStatus.NOT_FOUND) ;
+        return new ResponseEntity<User>(user, HttpStatus.OK) ;
     }
 
 }
