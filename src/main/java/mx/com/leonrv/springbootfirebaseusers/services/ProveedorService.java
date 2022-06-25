@@ -35,6 +35,11 @@ public class ProveedorService implements IProveedorService{
         return proveedorRepository.findById(rfc);
     }
 
+    @Override
+    public Mono<Void> deleteByRfc(String rfc) {
+        return proveedorRepository.deleteById(rfc);
+    }
+
 
 
 }

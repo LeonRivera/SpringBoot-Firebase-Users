@@ -11,5 +11,7 @@ public interface IProveedorService {
 
     Mono<Void> delete(Proveedor proveedor);
 
+    Mono<Void> deleteByRfc(String rfc);
+
     Mono<Proveedor> getByRfc(String rfc);
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import mx.com.leonrv.springbootfirebaseusers.models.Proveedor;
 import mx.com.leonrv.springbootfirebaseusers.services.IProveedorService;
 import reactor.core.publisher.Flux;
@@ -101,7 +102,17 @@ public class ProveedorController {
         return new ResponseEntity<Proveedor>(proveedor, HttpStatus.OK);
     }
 
-    
+    @DeleteMapping("/{rfc}")
+    public ResponseEntity<?> delete(@PathVariable String rfc){
+        Map<String, Object> responseMap = new HashMap<>();
+        Mono<Proveedor> byRfc = proveedorService.getByRfc(rfc);
 
-    
+        Proveedor proveedorObtenido = byRfc.block();
+        if(proveedorObtenido == null){
+            responseMap.put("message", "El proveedor que intenta eliminar no se encuentra registrado");
+            return new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.NOT_FOUND);
+        }
+        proveedorService.deleteByRfc(rfc).block();
+        return new ResponseEntity<Proveedor>(proveedorObtenido, HttpStatus.OK);
+    }
 }
